@@ -4,38 +4,11 @@ const rl = readline.createInterface({
     output: process.stdout
 })
 const question = question_text => new Promise((resolve, reject) => rl.question(question_text, answer => resolve(answer)))
-const R = require('ramda')
-
-let kebabs = [{
-        name: "Kebab du chef",
-        ingredient: [{
-            name: "Tomate",
-            name: "Salade",
-            name: "Viande",
-            name: "Oignon",
-        }],
-        isVegan: false
-    },
-    {
-        name: "Kebab du maitre",
-        ingredient: [{
-            name: "Tomate",
-            name: "Salade",
-            name: "Oignon",
-        }],
-        isVegan: true
-    }
-]
 
 let ingredients = ["Tomate", "Salade", "Viande", "Oignon", "Poisson", "Crevetes"]
-let ingredientsNonVegan = ["Viande"]
-let ingredientsNonPes = ["Poisson", "Crevetes", "Viande"]
-
 let sauces = ["blanche", "béchamel", "algérienne", "ketchup", "mayo", "moutarde", "barbecue", "samouraï"]
 
 async function main(){
-
-
 
 console.log("Voici la liste des ingredients")
 console.log(ingredients.map(ingredient => ingredient))
