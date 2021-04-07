@@ -1,8 +1,9 @@
-const readline = require('readline').createInterface({
+const readline = require('readline')
+const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout
-  })
-
+})
+const question = question_text => new Promise((resolve, reject) => rl.question(question_text, answer => resolve(answer)))
 const R = require('ramda')
 
 let kebabs = [{
@@ -26,20 +27,47 @@ let kebabs = [{
     }
 ]
 
-console.log("Voici la liste des kebabs")
-console.log(kebabs.map(kebab => kebab.name))
+let ingredients = ["Tomate", "Salade", "Viande", "Oignon", "Poisson", "Crevetes"]
+let ingredientsNonVegan = ["Viande"]
+let ingredientsNonPes = ["Poisson", "Crevetes", "Viande"]
+async function main(){
 
-readline.question(`Renseignement sur votre kebab: `, name => {
-    let kebabFind = kebabs.find(kebab => kebab.name === name)
 
-    let validate = R.ifElse(
-        () => !R.isNil(kebabFind),
-        () => kebabFind.isVegan ? console.log("Votre Kebab est vegetarien") : console.log("Votre Kebab n'est pas Vegetarien"),
-        () => console.log("Nom incorrect")
 
-    )
+console.log("Voici la liste des ingredients")
+console.log(ingredients.map(ingredient => ingredient))
 
-    validate()
+let mon_kebab = []
+let question_ingredient
+do {
+    question_ingredient = await question(`Ajouter ingredient (oui ou non): `)
+    if (question_ingredient && question_ingredient != 'non') {
+        let ingredient
+        do{
+          ingredient = await question(`Saisir l'ingredient': `)
+        }while(ingredient instanceof String)
 
-    readline.close()
-})
+        mon_kebab.push(ingredient)
+    }
+} while (question_ingredient !== 'non')
+
+rl.close()
+
+console.log("Voici la liste des ingredients du kebab")
+console.log(mon_kebab.map(ingredient => ingredient))
+
+if(!mon_kebab.includes("Poisson")){
+    console.log(`Kebab est pas pescetarien`)
+} else{
+    console.log(`Kebab n'est pas pescetarien`)
+}
+if(!mon_kebab.includes("Viande")){
+    console.log(`Kebab est vegetarien`)
+}
+else {
+    console.log(`Kebab n'est pas vegetarien`)
+}
+
+}
+
+main()
